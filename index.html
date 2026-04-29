@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey Kelsey 💖</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Comic Sans MS', cursive;
+        background: linear-gradient(45deg, #ff6ec4, #7873f5);
+        color: white;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    h1 {
+        font-size: 3.5em;
+        margin: 10px;
+        animation: pop 1.5s infinite alternate;
+    }
+
+    p {
+        font-size: 1.5em;
+        max-width: 600px;
+        margin: 10px;
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 15px 25px;
+        font-size: 1.2em;
+        border: none;
+        border-radius: 30px;
+        background: white;
+        color: #ff4da6;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        transform: scale(1.1);
+        background: #ffe6f2;
+    }
+
+    @keyframes pop {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Hey Kelsey 💖</h1>
+
+    <p>
+        I was just minding my business...  
+        then boom 💥  
+        you popped into my head 😌
+    </p>
+
+    <p>
+        Are you WiFi? 📶  
+        Because I'm feeling a strong connection 😏
+    </p>
+
+    <p>
+        If being cute was illegal 🚔  
+        you'd definitely be serving life 😭❤️
+    </p>
+
+    <button class="btn" onclick="showMessage()">Click me 😳</button>
+
+    <p id="hidden
