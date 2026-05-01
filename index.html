@@ -3,90 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hey Kelsey 💖</title>
+<title>Kelsey 👀</title>
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Comic Sans MS', cursive;
-        background: linear-gradient(45deg, #ff6ec4, #7873f5);
-        color: white;
-        text-align: center;
-        overflow: hidden;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: black;
+  color: white;
+  overflow: hidden;
+}
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        animation: fadeIn 2s ease-in-out;
-    }
+/* Loading Screen */
+#loader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+}
 
-    h1 {
-        font-size: 3.5em;
-        margin: 10px;
-        animation: pop 1.5s infinite alternate;
-    }
+#loader h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
 
-    p {
-        font-size: 1.5em;
-        max-width: 600px;
-        margin: 10px;
-    }
+.bar {
+  width: 200px;
+  height: 5px;
+  background: #222;
+  overflow: hidden;
+}
 
-    .btn {
-        margin-top: 20px;
-        padding: 15px 25px;
-        font-size: 1.2em;
-        border: none;
-        border-radius: 30px;
-        background: white;
-        color: #ff4da6;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+.progress {
+  height: 100%;
+  width: 0%;
+  background: #00f0ff;
+  animation: load 3s linear forwards;
+}
 
-    .btn:hover {
-        transform: scale(1.1);
-        background: #ffe6f2;
-    }
+@keyframes load {
+  to { width: 100%; }
+}
 
-    @keyframes pop {
-        from { transform: scale(1); }
-        to { transform: scale(1.1); }
-    }
+/* Main */
+.container {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+h1 {
+  font-size: 3rem;
+}
+
+.glow {
+  color: #00f0ff;
+  text-shadow: 0 0 20px #00f0ff, 0 0 50px #00aaff;
+}
+
+#story {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  max-width: 700px;
+}
+
+.btn {
+  margin: 15px;
+  padding: 12px 25px;
+  border: none;
+  background: #00f0ff;
+  color: black;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+}
+
+/* Fade */
+.fade {
+  animation: fade 0.5s ease;
+}
+
+@keyframes fade {
+  from {opacity:0;}
+  to {opacity:1;}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Hey Kelsey 💖</h1>
+<!-- Loading -->
+<div id="loader">
+  <h1>Loading something important… 👀</h1>
+  <div class="bar"><div class="progress"></div></div>
+</div>
 
-    <p>
-        I was just minding my business...  
-        then boom 💥  
-        you popped into my head 😌
-    </p>
+<!-- Main -->
+<div class="container" id="main">
+  <div>
+    <h1>Hey <span class="glow">Kelsey</span></h1>
+    <div id="story"></div>
+    <div id="choices"></div>
+  </div>
+</div>
 
-    <p>
-        Are you WiFi? 📶  
-        Because I'm feeling a strong connection 😏
-    </p>
+<script>
+/* Show main after loading */
+setTimeout(() => {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("main").style.display = "flex";
+  startStory();
+}, 3000);
 
-    <p>
-        If being cute was illegal 🚔  
-        you'd definitely be serving life 😭❤️
-    </p>
+/* Story flow */
+function startStory() {
+  show(`
+    Okay… quick question 😌<br><br>
+    If someone made a whole website just to talk to you…<br>
+    that’s either impressive or slightly unhinged.<br><br>
+    Which one are we calling it?
+  `, [
+    {text: "Impressive 😌", action: path1},
+    {text: "Unhinged 😂", action: path2}
+  ]);
+}
 
-    <button class="btn" onclick="showMessage()">Click me 😳</button>
+function path1() {
+  show(`
+    I like your thinking 😏<br><br>
+    Because honestly… you caught my attention<br>
+    and I don’t ignore things like that.
+  `, [
+    {text: "Continue 👀", action: final}
+  ]);
+}
 
-    <p id="hidden
+function path2() {
+  show(`
+    Unhinged?? 😭<br><br>
+    That’s crazy… but also fair.<br>
+    Still… here you are reading all this.
+  `, [
+    {text: "Okay continue 😂", action: final}
+  ]);
+}
+
+function final() {
+  show(`
+    So let’s skip the overthinking.<br><br>
+    I think you’re interesting.<br>
+    I’d actually like to take you out.<br><br>
+    Simple.
+  `, [
+    {text: "Yes 🙂", action: yes},
+    {text: "No 🙃", action: dodge}
+  ]);
+}
+
+function yes() {
+  show(`
+    I knew it 😌<br><br>
+    Now I just need your time…<br>
+    and I’ll handle the rest.
+  `, []);
+}
+
+function dodge() {
+  show(`
+    Nah… that option doesn’t look right 😭<br><br>
+    Try again.
+  `, [
+    {text: "Yes 🙂", action: yes}
+  ]);
+}
+
+/* Render function */
+function show(text, buttons) {
+  const story = document.getElementById("story");
+  const choices = document.getElementById("choices");
+
+  story.innerHTML = text;
+  story.classList.add("fade");
+
+  choices.innerHTML = "";
+  buttons.forEach(btn => {
+    const b = document.createElement("button");
+    b.innerText = btn.text;
+    b.className = "btn";
+    b.onclick = btn.action;
+    choices.appendChild(b);
+  });
+}
+</script>
+
+</body>
+</html>
