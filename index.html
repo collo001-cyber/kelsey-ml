@@ -3,209 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelsey 👀</title>
+<title>For Kelsey 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: black;
-  color: white;
-  overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
 }
 
-/* Loading Screen */
-#loader {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 10;
+/* Background glow */
+body::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,105,180,0.3), transparent);
+    filter: blur(100px);
+    top: -100px;
+    right: -100px;
 }
 
-#loader h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.bar {
-  width: 200px;
-  height: 5px;
-  background: #222;
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  width: 0%;
-  background: #00f0ff;
-  animation: load 3s linear forwards;
-}
-
-@keyframes load {
-  to { width: 100%; }
-}
-
-/* Main */
-.container {
-  display: none;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* Glass card */
+.card {
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    animation: fadeUp 1.5s ease;
 }
 
 h1 {
-  font-size: 3rem;
+    font-size: 2.5em;
+    margin-bottom: 10px;
 }
 
-.glow {
-  color: #00f0ff;
-  text-shadow: 0 0 20px #00f0ff, 0 0 50px #00aaff;
+.typing {
+    font-size: 1.2em;
+    margin-top: 20px;
+    min-height: 60px;
 }
 
-#story {
-  margin-top: 20px;
-  font-size: 1.3rem;
-  max-width: 700px;
+button {
+    margin-top: 30px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff6f91, #ff9671);
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.btn {
-  margin: 15px;
-  padding: 12px 25px;
-  border: none;
-  background: #00f0ff;
-  color: black;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.2s;
+button:hover {
+    transform: scale(1.05);
 }
 
-.btn:hover {
-  transform: scale(1.1);
+.hidden {
+    display: none;
+    margin-top: 25px;
+    font-size: 1.2em;
+    line-height: 1.6;
 }
 
-/* Fade */
-.fade {
-  animation: fade 0.5s ease;
+.fade-in {
+    animation: fadeIn 2s ease forwards;
 }
 
-@keyframes fade {
-  from {opacity:0;}
-  to {opacity:1;}
+/* Animations */
+@keyframes fadeUp {
+    from {opacity: 0; transform: translateY(40px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 18px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from {transform: translateY(100vh); opacity: 1;}
+    to {transform: translateY(-10vh); opacity: 0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Loading -->
-<div id="loader">
-  <h1>Loading something important… 👀</h1>
-  <div class="bar"><div class="progress"></div></div>
-</div>
+<div class="card">
+    <h1>Hey Kelsey 💖</h1>
 
-<!-- Main -->
-<div class="container" id="main">
-  <div>
-    <h1>Hey <span class="glow">Kelsey</span></h1>
-    <div id="story"></div>
-    <div id="choices"></div>
-  </div>
+    <div class="typing" id="typingText"></div>
+
+    <button onclick="revealMessage()">Tap me 😊</button>
+
+    <div class="hidden" id="message">
+        <p>
+            Math keeps talking about X and Y...  
+            but honestly, I’d rather focus on U and I 😉
+        </p>
+
+        <p>
+            Your smile? It literally brightens my day.  
+            And your personality… yeah, we just vibe effortlessly.
+        </p>
+
+        <p>
+            I appreciate you more than you probably realize,  
+            and I’m really grateful for the chance to know you 💫
+        </p>
+
+        <p style="margin-top:15px;">— Collins 💖</p>
+    </div>
 </div>
 
 <script>
-/* Show main after loading */
-setTimeout(() => {
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("main").style.display = "flex";
-  startStory();
-}, 3000);
+const text = "I didn’t want to just say this... I wanted you to feel it.";
+let i = 0;
 
-/* Story flow */
-function startStory() {
-  show(`
-    Okay… quick question 😌<br><br>
-    If someone made a whole website just to talk to you…<br>
-    that’s either impressive or slightly unhinged.<br><br>
-    Which one are we calling it?
-  `, [
-    {text: "Impressive 😌", action: path1},
-    {text: "Unhinged 😂", action: path2}
-  ]);
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("typingText").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    }
 }
 
-function path1() {
-  show(`
-    I like your thinking 😏<br><br>
-    Because honestly… you caught my attention<br>
-    and I don’t ignore things like that.
-  `, [
-    {text: "Continue 👀", action: final}
-  ]);
+typeWriter();
+
+function revealMessage() {
+    const msg = document.getElementById("message");
+    msg.classList.remove("hidden");
+    msg.classList.add("fade-in");
 }
 
-function path2() {
-  show(`
-    Unhinged?? 😭<br><br>
-    That’s crazy… but also fair.<br>
-    Still… here you are reading all this.
-  `, [
-    {text: "Okay continue 😂", action: final}
-  ]);
+// Floating hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 10 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
 }
 
-function final() {
-  show(`
-    So let’s skip the overthinking.<br><br>
-    I think you’re interesting.<br>
-    I’d actually like to take you out.<br><br>
-    Simple.
-  `, [
-    {text: "Yes 🙂", action: yes},
-    {text: "No 🙃", action: dodge}
-  ]);
-}
-
-function yes() {
-  show(`
-    I knew it 😌<br><br>
-    Now I just need your time…<br>
-    and I’ll handle the rest.
-  `, []);
-}
-
-function dodge() {
-  show(`
-    Nah… that option doesn’t look right 😭<br><br>
-    Try again.
-  `, [
-    {text: "Yes 🙂", action: yes}
-  ]);
-}
-
-/* Render function */
-function show(text, buttons) {
-  const story = document.getElementById("story");
-  const choices = document.getElementById("choices");
-
-  story.innerHTML = text;
-  story.classList.add("fade");
-
-  choices.innerHTML = "";
-  buttons.forEach(btn => {
-    const b = document.createElement("button");
-    b.innerText = btn.text;
-    b.className = "btn";
-    b.onclick = btn.action;
-    choices.appendChild(b);
-  });
-}
+setInterval(createHeart, 400);
 </script>
 
 </body>
