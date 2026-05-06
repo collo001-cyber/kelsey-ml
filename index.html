@@ -2,155 +2,187 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Chat with You ❤️</title>
+<title>For Kelsey ❤️</title>
 <style>
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: #0f0f1a;
+    background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-/* App container */
-.app {
-    width: 320px;
-    height: 600px;
-    background: #1e1e2f;
-    border-radius: 25px;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
-.header {
-    background: #ff4d6d;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-}
-
-.chat {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
+/* Overlay */
+#overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #0f0f1a;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 10;
 }
 
-.message {
-    max-width: 75%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 15px;
-    font-size: 14px;
-    line-height: 1.4;
-    animation: fadeIn 0.4s ease;
+/* Text container */
+.container {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
 }
 
-.you {
-    background: #ff4d6d;
-    color: white;
-    align-self: flex-end;
+#text {
+    font-size: 30px;
+    line-height: 1.7;
+    min-height: 140px;
 }
 
-.her {
-    background: #2c2c3e;
-    color: white;
-    align-self: flex-start;
+.cursor {
+    display: inline-block;
+    width: 3px;
+    background: white;
+    margin-left: 5px;
+    animation: blink 1s infinite;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(10px);}
-    to {opacity: 1; transform: translateY(0);}
+@keyframes blink {
+    0%, 50%, 100% {opacity: 1;}
+    25%, 75% {opacity: 0;}
+}
+
+/* Floating emojis */
+.emoji {
+    position: absolute;
+    font-size: 22px;
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-10vh);
+        opacity: 0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-    <div class="header">Kelsey ❤️</div>
-    <div class="chat" id="chat"></div>
+<div id="overlay" onclick="startExperience()">
+    Tap to begin ❤️
 </div>
 
-<script>
-const chat = document.getElementById("chat");
+<div class="container">
+    <div id="text"></div><span class="cursor"></span>
+</div>
 
-const conversation = [
-    {sender: "you", text: "Hey Kelsey…"},
-    {sender: "her", text: "Hey..."},
-    {sender: "you", text: "Important question"},
-    {sender: "her", text: "Why does that sound serious 😂"},
-    {sender: "you", text: "Because it is"},
-    {sender: "you", text: "How are you this amazing and still acting like you’re not?"},
-    {sender: "her", text: "Stoppp 😂"},
-    {sender: "you", text: "No seriously, explain yourself"},
-    
-    {sender: "you", text: "Also… if overthinking was a sport, you’d have like 3 gold medals by now 🥇"},
-    {sender: "her", text: "Wow 😭 rude"},
-    {sender: "you", text: "Not rude. Just accurate. But don’t worry… I’m your coach now"},
-    
-    {sender: "you", text: "Rule number 1: You’re not allowed to be hard on yourself"},
-    {sender: "her", text: "And if I break the rule?"},
-    {sender: "you", text: "Penalty: I remind you how amazing you are 10 times"},
-    
-    {sender: "you", text: "Like right now"},
-    {sender: "you", text: "You’re kind"},
-    {sender: "you", text: "You’re beautiful"},
-    {sender: "you", text: "You’re strong"},
-    {sender: "you", text: "You’re special"},
-    {sender: "you", text: "And slightly stubborn… but we’ll work on that 😂"},
-    
-    {sender: "her", text: "Excuse me?? 😂"},
-    {sender: "you", text: "I said what I said"},
-    
-    {sender: "you", text: "But jokes aside…"},
-    {sender: "you", text: "Even when you feel unsure"},
-    {sender: "you", text: "You’re still more than enough ❤️"},
-    
-    {sender: "her", text: "That actually means a lot…"},
-    {sender: "you", text: "Good. Because I’m not going anywhere"},
-    
-    {sender: "you", text: "So anytime your brain starts acting dramatic again…"},
-    {sender: "you", text: "Just remember there’s someone here"},
-    {sender: "you", text: "Who sees you clearly"},
-    {sender: "you", text: "And still chooses you"},
-    
-    {sender: "you", text: "Also random thought…"},
-    {sender: "her", text: "What now 😂"},
-    {sender: "you", text: "If cuteness was illegal, you’d be serving life sentence"},
-    
-    {sender: "her", text: "You’re actually crazy 😂"},
-    {sender: "you", text: "Crazy about you? yes."},
-    
-    {sender: "you", text: "Anyway… just wanted you to smile a little today 😊"}
+<!-- 🎵 Background emotional beats -->
+<audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const messages = [
+    "Hey Kelsey…",
+    "I just wanted to say something small… but important.",
+    "You really need to stop underestimating yourself 😌",
+    "Because from where I’m standing…",
+    "You’re actually kind of incredible.",
+    "Okay not kind of… VERY.",
+    "Also… quick observation 😂",
+    "If overthinking was a sport… you'd be undefeated 🥇",
+    "But don’t worry…",
+    "I’ll be here to remind you of reality.",
+    "Reality = you’re amazing.",
+    "You’re kind.",
+    "You’re beautiful.",
+    "You’re strong.",
+    "And yes… a little stubborn 😏",
+    "But that’s part of the charm.",
+    "Even on your worst days…",
+    "You’re still more than enough ❤️",
+    "And just in case you forget…",
+    "There’s someone here who sees you clearly…",
+    "And still chooses you.",
+    "Also random thought 😭",
+    "If cuteness was illegal…",
+    "You’d be serving life sentence.",
+    "Anyway…",
+    "I hope this made you smile 😊"
 ];
 
 let i = 0;
+let j = 0;
+let current = "";
+let musicStarted = false;
 
-function addMessage(sender, text) {
-    const msg = document.createElement("div");
-    msg.classList.add("message", sender);
-    msg.innerText = text;
-    chat.appendChild(msg);
+function startExperience() {
+    document.getElementById("overlay").style.display = "none";
 
-    chat.scrollTop = chat.scrollHeight;
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.0;
+    music.play();
+
+    // smooth fade-in 🎧
+    let vol = 0;
+    const fade = setInterval(() => {
+        if (vol < 0.3) {
+            vol += 0.02;
+            music.volume = vol;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
+
+    typeEffect();
 }
 
-function startChat() {
-    if (i < conversation.length) {
-        addMessage(conversation[i].sender, conversation[i].text);
-        i++;
-        setTimeout(startChat, 1400);
+function typeEffect() {
+    if (i < messages.length) {
+        if (j < messages[i].length) {
+            current += messages[i].charAt(j);
+            document.getElementById("text").innerHTML = current;
+            j++;
+            setTimeout(typeEffect, 35);
+        } else {
+            setTimeout(() => {
+                current = "";
+                j = 0;
+                i++;
+                typeEffect();
+            }, 1300);
+        }
     }
 }
 
-startChat();
+/* Floating emojis */
+function createEmoji() {
+    const emojis = ["❤️","😂","✨","💕","🥰"];
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+    document.body.appendChild(emoji);
+
+    setTimeout(() => {
+        emoji.remove();
+    }, 6000);
+}
+
+setInterval(createEmoji, 900);
 </script>
 
 </body>
