@@ -2,181 +2,155 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Kelsey 💖</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+<title>Chat with You ❤️</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f0f1a;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #fff;
-    overflow: hidden;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Background glow */
-body::before {
-    content: "";
-    position: absolute;
-    width: 600px;
+/* App container */
+.app {
+    width: 320px;
     height: 600px;
-    background: radial-gradient(circle, rgba(255,105,180,0.3), transparent);
-    filter: blur(100px);
-    top: -100px;
-    right: -100px;
+    background: #1e1e2f;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
-/* Glass card */
-.card {
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 40px;
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    animation: fadeUp 1.5s ease;
-}
-
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-}
-
-.typing {
-    font-size: 1.2em;
-    margin-top: 20px;
-    min-height: 60px;
-}
-
-button {
-    margin-top: 30px;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 30px;
-    background: linear-gradient(135deg, #ff6f91, #ff9671);
+.header {
+    background: #ff4d6d;
+    padding: 15px;
     color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.3s;
+    text-align: center;
+    font-weight: bold;
 }
 
-button:hover {
-    transform: scale(1.05);
+.chat {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-.hidden {
-    display: none;
-    margin-top: 25px;
-    font-size: 1.2em;
-    line-height: 1.6;
+.message {
+    max-width: 75%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    animation: fadeIn 0.4s ease;
 }
 
-.fade-in {
-    animation: fadeIn 2s ease forwards;
+.you {
+    background: #ff4d6d;
+    color: white;
+    align-self: flex-end;
 }
 
-/* Animations */
-@keyframes fadeUp {
-    from {opacity: 0; transform: translateY(40px);}
-    to {opacity: 1; transform: translateY(0);}
+.her {
+    background: #2c2c3e;
+    color: white;
+    align-self: flex-start;
 }
 
 @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
-
-/* Floating hearts */
-.heart {
-    position: absolute;
-    font-size: 18px;
-    animation: float 6s linear infinite;
-}
-
-@keyframes float {
-    from {transform: translateY(100vh); opacity: 1;}
-    to {transform: translateY(-10vh); opacity: 0;}
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-    <h1>Hey Kelsey 💖</h1>
-
-    <div class="typing" id="typingText"></div>
-
-    <button onclick="revealMessage()">Tap me 😊</button>
-
-    <div class="hidden" id="message">
-        <p>
-            Math keeps talking about X and Y...  
-            but honestly, I’d rather focus on U and I 😉
-        </p>
-
-        <p>
-            Your smile? It literally brightens my day.  
-            And your personality… yeah, we just vibe effortlessly.
-        </p>
-
-        <p>
-            I appreciate you more than you probably realize,  
-            and I’m really grateful for the chance to know you 💫
-        </p>
-
-        <p style="margin-top:15px;">— Collins 💖</p>
-    </div>
+<div class="app">
+    <div class="header">Kelsey ❤️</div>
+    <div class="chat" id="chat"></div>
 </div>
 
 <script>
-const text = "I didn’t want to just say this... I wanted you to feel it.";
+const chat = document.getElementById("chat");
+
+const conversation = [
+    {sender: "you", text: "Hey Kelsey…"},
+    {sender: "her", text: "Hey..."},
+    {sender: "you", text: "Important question"},
+    {sender: "her", text: "Why does that sound serious 😂"},
+    {sender: "you", text: "Because it is"},
+    {sender: "you", text: "How are you this amazing and still acting like you’re not?"},
+    {sender: "her", text: "Stoppp 😂"},
+    {sender: "you", text: "No seriously, explain yourself"},
+    
+    {sender: "you", text: "Also… if overthinking was a sport, you’d have like 3 gold medals by now 🥇"},
+    {sender: "her", text: "Wow 😭 rude"},
+    {sender: "you", text: "Not rude. Just accurate. But don’t worry… I’m your coach now"},
+    
+    {sender: "you", text: "Rule number 1: You’re not allowed to be hard on yourself"},
+    {sender: "her", text: "And if I break the rule?"},
+    {sender: "you", text: "Penalty: I remind you how amazing you are 10 times"},
+    
+    {sender: "you", text: "Like right now"},
+    {sender: "you", text: "You’re kind"},
+    {sender: "you", text: "You’re beautiful"},
+    {sender: "you", text: "You’re strong"},
+    {sender: "you", text: "You’re special"},
+    {sender: "you", text: "And slightly stubborn… but we’ll work on that 😂"},
+    
+    {sender: "her", text: "Excuse me?? 😂"},
+    {sender: "you", text: "I said what I said"},
+    
+    {sender: "you", text: "But jokes aside…"},
+    {sender: "you", text: "Even when you feel unsure"},
+    {sender: "you", text: "You’re still more than enough ❤️"},
+    
+    {sender: "her", text: "That actually means a lot…"},
+    {sender: "you", text: "Good. Because I’m not going anywhere"},
+    
+    {sender: "you", text: "So anytime your brain starts acting dramatic again…"},
+    {sender: "you", text: "Just remember there’s someone here"},
+    {sender: "you", text: "Who sees you clearly"},
+    {sender: "you", text: "And still chooses you"},
+    
+    {sender: "you", text: "Also random thought…"},
+    {sender: "her", text: "What now 😂"},
+    {sender: "you", text: "If cuteness was illegal, you’d be serving life sentence"},
+    
+    {sender: "her", text: "You’re actually crazy 😂"},
+    {sender: "you", text: "Crazy about you? yes."},
+    
+    {sender: "you", text: "Anyway… just wanted you to smile a little today 😊"}
+];
+
 let i = 0;
 
-function typeWriter() {
-    if (i < text.length) {
-        document.getElementById("typingText").innerHTML += text.charAt(i);
+function addMessage(sender, text) {
+    const msg = document.createElement("div");
+    msg.classList.add("message", sender);
+    msg.innerText = text;
+    chat.appendChild(msg);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function startChat() {
+    if (i < conversation.length) {
+        addMessage(conversation[i].sender, conversation[i].text);
         i++;
-        setTimeout(typeWriter, 40);
+        setTimeout(startChat, 1400);
     }
 }
 
-typeWriter();
-
-function revealMessage() {
-    const msg = document.getElementById("message");
-    msg.classList.remove("hidden");
-    msg.classList.add("fade-in");
-}
-
-// Floating hearts
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 10 + 10) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
-}
-
-setInterval(createHeart, 400);
+startChat();
 </script>
 
 </body>
