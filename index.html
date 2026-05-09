@@ -1,189 +1,439 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For Kelsey ❤️</title>
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #1a1a2e, #0f0f1a);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Overlay */
-#overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #0f0f1a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-/* Text container */
-.container {
-    width: 90%;
-    max-width: 600px;
-    text-align: center;
-}
-
-#text {
-    font-size: 30px;
-    line-height: 1.7;
-    min-height: 140px;
-}
-
-.cursor {
-    display: inline-block;
-    width: 3px;
-    background: white;
-    margin-left: 5px;
-    animation: blink 1s infinite;
-}
-
-@keyframes blink {
-    0%, 50%, 100% {opacity: 1;}
-    25%, 75% {opacity: 0;}
-}
-
-/* Floating emojis */
-.emoji {
-    position: absolute;
-    font-size: 22px;
-    animation: floatUp linear forwards;
-}
-
-@keyframes floatUp {
-    from {
-        transform: translateY(100vh);
-        opacity: 1;
+    :root {
+      --bg: #0d0a0e;
+      --ink: #f0e8df;
+      --accent: #c9796a;
+      --muted: #7a6a62;
+      --gold: #c8a96e;
     }
-    to {
-        transform: translateY(-10vh);
-        opacity: 0;
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
     }
-}
-</style>
+
+    /* === PARTICLE CANVAS === */
+    #canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* === LAYOUT === */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+
+    /* === ENVELOPE INTRO === */
+    .envelope-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      animation: fadeUp 1.2s ease both;
+    }
+
+    .envelope {
+      width: 120px;
+      height: 82px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .envelope:hover { transform: scale(1.06); }
+
+    .env-body {
+      width: 100%;
+      height: 100%;
+      background: #2a1f28;
+      border: 1.5px solid #4a3545;
+      border-radius: 4px 4px 6px 6px;
+      position: absolute;
+      bottom: 0;
+    }
+
+    .env-flap {
+      width: 0;
+      height: 0;
+      border-left: 60px solid transparent;
+      border-right: 60px solid transparent;
+      border-top: 44px solid #3a2a38;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top center;
+      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+      z-index: 2;
+    }
+
+    .envelope.open .env-flap {
+      transform: rotateX(180deg);
+    }
+
+    .env-left {
+      width: 0; height: 0;
+      border-top: 41px solid transparent;
+      border-bottom: 41px solid transparent;
+      border-left: 62px solid #321d30;
+      position: absolute; left: 0; top: 0;
+    }
+    .env-right {
+      width: 0; height: 0;
+      border-top: 41px solid transparent;
+      border-bottom: 41px solid transparent;
+      border-right: 62px solid #2c1a2a;
+      position: absolute; right: 0; top: 0;
+    }
+    .env-seal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 22px;
+      z-index: 3;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .open-hint {
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* === LETTER === */
+    .letter-wrap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      max-width: 640px;
+      width: 100%;
+      gap: 0;
+      animation: letterReveal 1.4s ease both;
+    }
+
+    .letter-wrap.visible { display: flex; }
+
+    .letter-paper {
+      background: #18121a;
+      border: 1px solid #3a2a38;
+      border-radius: 2px;
+      padding: 52px 52px 60px;
+      position: relative;
+      box-shadow:
+        0 0 0 6px #14101600,
+        0 30px 80px rgba(0,0,0,0.6),
+        inset 0 0 60px rgba(201,121,106,0.04);
+    }
+
+    .letter-paper::before {
+      content: '';
+      position: absolute;
+      left: 52px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(201,121,106,0.12);
+    }
+
+    .letter-date {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 32px;
+      padding-left: 16px;
+    }
+
+    .letter-salutation {
+      font-family: 'IM Fell English', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 24px;
+      padding-left: 16px;
+    }
+
+    .letter-body {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--ink);
+      padding-left: 16px;
+    }
+
+    .letter-body p { margin-bottom: 20px; }
+    .letter-body em { color: var(--accent); font-style: italic; }
+
+    .letter-closing {
+      margin-top: 36px;
+      padding-left: 16px;
+    }
+
+    .letter-closing p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .letter-signature {
+      font-size: 28px;
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+
+    .hearts-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 36px;
+      font-size: 20px;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease both;
+    }
+
+    .hearts-row span {
+      display: inline-block;
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+    .hearts-row span:nth-child(2) { animation-delay: 0.3s; }
+    .hearts-row span:nth-child(3) { animation-delay: 0.6s; }
+
+    /* === EDIT MODE === */
+    .edit-bar {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .edit-bar.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .btn {
+      background: #2a1f28;
+      border: 1px solid #4a3545;
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn:hover { background: #3a2a38; border-color: var(--gold); }
+    .btn.accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .btn.accent:hover { background: #b86757; }
+
+    [contenteditable="true"] {
+      outline: none;
+      border-bottom: 1px dashed rgba(201,121,106,0.4);
+      caret-color: var(--accent);
+    }
+
+    /* === KEYFRAMES === */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes letterReveal {
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%,-50%) scale(1); }
+      50%       { transform: translate(-50%,-50%) scale(1.2); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.25); }
+    }
+
+    @media (max-width: 600px) {
+      .letter-paper { padding: 36px 28px 44px; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="overlay" onclick="startExperience()">
-    Tap to begin ❤️
+<canvas id="canvas"></canvas>
+
+<!-- ENVELOPE INTRO -->
+<div class="page" id="introPage">
+  <div class="envelope-wrap">
+    <div class="envelope" id="envelope" onclick="openEnvelope()">
+      <div class="env-body"></div>
+      <div class="env-left"></div>
+      <div class="env-right"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal">♥</div>
+    </div>
+    <p class="open-hint">A letter for you — tap to open</p>
+  </div>
 </div>
 
-<div class="container">
-    <div id="text"></div><span class="cursor"></span>
+<!-- LETTER PAGE -->
+<div class="page" id="letterPage" style="display:none;">
+  <div class="letter-wrap" id="letterWrap">
+    <div class="letter-paper">
+
+      <div class="letter-date" id="editDate">Today & always</div>
+
+      <div class="letter-salutation" id="editSalutation">My dearest,</div>
+
+      <div class="letter-body">
+        <p id="p1">There are moments when I look at you and feel something words can barely hold — a kind of quiet wonder that you exist, that you are in my life, that I get to call you mine.</p>
+        <p id="p2">I don't need a reason or a special day to say this. <em>I love you</em> — fully, without condition, in all the ordinary and extraordinary moments that make up our days together.</p>
+        <p id="p3">Thank you for your warmth, your laughter, and for every small thing you do that you probably don't even realize means the world to me. I notice it all. I cherish all of it.</p>
+        <p id="p4">Just in case no one has told you today — you are extraordinary. And I am so grateful to love you.</p>
+      </div>
+
+      <div class="letter-closing">
+        <p>Forever and without hesitation,</p>
+        <div class="letter-signature" id="editSig">Someone who loves you</div>
+      </div>
+    </div>
+
+    <div class="hearts-row">
+      <span>♥</span><span>♥</span><span>♥</span>
+    </div>
+  </div>
 </div>
 
-<!-- 🎵 Background emotional beats -->
-<audio id="bgMusic" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
-</audio>
+<!-- EDIT BAR -->
+<div class="edit-bar" id="editBar">
+  <button class="btn" onclick="toggleEdit()">✏ Edit letter</button>
+  <button class="btn accent" onclick="window.print()">⬇ Save / Print</button>
+</div>
 
 <script>
-const messages = [
-    "Hey Kelsey…",
-    "I just wanted to say something small… but important.",
-    "You really need to stop underestimating yourself 😌",
-    "Because from where I’m standing…",
-    "You’re actually kind of incredible.",
-    "Okay not kind of… VERY.",
-    "Also… quick observation 😂",
-    "If overthinking was a sport… you'd be undefeated 🥇",
-    "But don’t worry…",
-    "I’ll be here to remind you of reality.",
-    "Reality = you’re amazing.",
-    "You’re kind.",
-    "You’re beautiful.",
-    "You’re strong.",
-    "And yes… a little stubborn 😏",
-    "But that’s part of the charm.",
-    "Even on your worst days…",
-    "You’re still more than enough ❤️",
-    "And just in case you forget…",
-    "There’s someone here who sees you clearly…",
-    "And still chooses you.",
-    "Also random thought 😭",
-    "If cuteness was illegal…",
-    "You’d be serving life sentence.",
-    "Anyway…",
-    "I hope this made you smile 😊"
-];
+  /* ---- Floating particles ---- */
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
 
-let i = 0;
-let j = 0;
-let current = "";
-let musicStarted = false;
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-function startExperience() {
-    document.getElementById("overlay").style.display = "none";
+  function rand(a, b) { return a + Math.random() * (b - a); }
 
-    const music = document.getElementById("bgMusic");
-    music.volume = 0.0;
-    music.play();
-
-    // smooth fade-in 🎧
-    let vol = 0;
-    const fade = setInterval(() => {
-        if (vol < 0.3) {
-            vol += 0.02;
-            music.volume = vol;
-        } else {
-            clearInterval(fade);
-        }
-    }, 200);
-
-    typeEffect();
-}
-
-function typeEffect() {
-    if (i < messages.length) {
-        if (j < messages[i].length) {
-            current += messages[i].charAt(j);
-            document.getElementById("text").innerHTML = current;
-            j++;
-            setTimeout(typeEffect, 35);
-        } else {
-            setTimeout(() => {
-                current = "";
-                j = 0;
-                i++;
-                typeEffect();
-            }, 1300);
-        }
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = rand(0, W);
+      this.y = init ? rand(0, H) : H + 10;
+      this.r = rand(1, 2.6);
+      this.speed = rand(0.15, 0.5);
+      this.drift = rand(-0.2, 0.2);
+      this.alpha = rand(0.1, 0.5);
+      this.symbol = Math.random() < 0.25 ? '♥' : null;
+      this.fontSize = rand(8, 14);
     }
-}
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      if (this.symbol) {
+        ctx.fillStyle = '#c9796a';
+        ctx.font = `${this.fontSize}px serif`;
+        ctx.fillText(this.symbol, this.x, this.y);
+      } else {
+        ctx.fillStyle = '#c8a96e';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+    update() {
+      this.y -= this.speed;
+      this.x += this.drift;
+      if (this.y < -20) this.reset(false);
+    }
+  }
 
-/* Floating emojis */
-function createEmoji() {
-    const emojis = ["❤️","😂","✨","💕","🥰"];
-    const emoji = document.createElement("div");
-    emoji.classList.add("emoji");
-    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
 
-    emoji.style.left = Math.random() * 100 + "vw";
-    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
 
-    document.body.appendChild(emoji);
-
+  /* ---- Envelope open ---- */
+  function openEnvelope() {
+    const env = document.getElementById('envelope');
+    env.classList.add('open');
     setTimeout(() => {
-        emoji.remove();
-    }, 6000);
-}
+      document.getElementById('introPage').style.display = 'none';
+      const lp = document.getElementById('letterPage');
+      lp.style.display = 'flex';
+      document.getElementById('letterWrap').classList.add('visible');
+      document.getElementById('editBar').classList.add('visible');
+    }, 700);
+  }
 
-setInterval(createEmoji, 900);
+  /* ---- Edit mode ---- */
+  let editing = false;
+  const editable = ['editDate','editSalutation','p1','p2','p3','p4','editSig'];
+
+  function toggleEdit() {
+    editing = !editing;
+    editable.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.contentEditable = editing ? 'true' : 'false';
+    });
+    document.querySelector('.edit-bar .btn:first-child').textContent =
+      editing ? '✓ Done editing' : '✏ Edit letter';
+  }
 </script>
-
 </body>
 </html>
