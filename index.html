@@ -1,502 +1,503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For Kelsey 🌹</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Mrs+Saint+Delafield&family=Lora:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌 A Very Important Quiz for Kelsey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    /* ─── Reset ─── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --rose: #e8445a;
+    --blush: #ffd6dc;
+    --cream: #fff8f0;
+    --gold: #f5a623;
+    --deep: #1a0a10;
+    --soft: #7a4255;
+  }
 
-    /* ─── Variables ─── */
-    :root {
-      --bg:       #0b0d14;
-      --bg2:      #11141f;
-      --gold:     #d4a84b;
-      --gold-lt:  #f0cc7a;
-      --rose:     #c96a7e;
-      --rose-lt:  #e8a0b0;
-      --cream:    #f5ead8;
-      --ink:      #e8dcc8;
-      --muted:    #7a6f6080;
-      --border:   rgba(212,168,75,0.18);
-    }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
 
-    html { scroll-behavior: smooth; }
+  /* Floating hearts background */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-    body {
-      background-color: var(--bg);
-      color: var(--ink);
-      font-family: 'Lora', Georgia, serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      cursor: default;
-    }
+  .heart-float {
+    position: absolute;
+    font-size: clamp(14px, 2vw, 22px);
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
 
-    /* ─── Animated starfield background ─── */
-    .stars {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: white;
-      animation: twinkle linear infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.1; transform: scale(1); }
-      50%       { opacity: 0.8; transform: scale(1.4); }
-    }
+  @keyframes floatUp {
+    0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.35; }
+    90% { opacity: 0.25; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
 
-    /* ─── Fireflies ─── */
-    .firefly {
-      position: fixed;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffe87a, #d4a84b00);
-      pointer-events: none;
-      z-index: 1;
-      animation: drift linear infinite;
-      filter: blur(0.5px);
-    }
-    @keyframes drift {
-      0%   { transform: translate(0, 0) scale(0.6);  opacity: 0; }
-      15%  { opacity: 1; }
-      50%  { transform: translate(var(--dx), var(--dy)) scale(1.1); opacity: 0.8; }
-      85%  { opacity: 0.6; }
-      100% { transform: translate(var(--dx2), var(--dy2)) scale(0.4); opacity: 0; }
-    }
+  /* Main card */
+  .card {
+    position: relative;
+    z-index: 10;
+    background: white;
+    border-radius: 28px;
+    padding: 48px 44px;
+    max-width: 560px;
+    width: 92vw;
+    box-shadow: 0 8px 60px rgba(232,68,90,0.15), 0 2px 12px rgba(0,0,0,0.06);
+    border: 1.5px solid var(--blush);
+    text-align: center;
+  }
 
-    /* ─── Ambient glow orbs ─── */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(90px);
-      pointer-events: none;
-      z-index: 0;
-      animation: breathe ease-in-out infinite alternate;
-    }
-    .orb-1 { width: 500px; height: 500px; background: rgba(201,106,126,0.07); top: -100px; right: -100px; animation-duration: 8s; }
-    .orb-2 { width: 400px; height: 400px; background: rgba(212,168,75,0.06);  bottom: 50px;  left: -80px;  animation-duration: 11s; }
-    @keyframes breathe {
-      from { opacity: 0.6; transform: scale(1); }
-      to   { opacity: 1;   transform: scale(1.12); }
-    }
+  .envelope-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+  }
 
-    /* ─── Main page ─── */
-    .page {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 2.5rem) 4rem;
-    }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
 
-    /* ─── Morning header ─── */
-    .morning-wrap {
-      text-align: center;
-      margin-bottom: 3.5rem;
-      opacity: 0;
-      animation: riseUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
-    }
-    .morning-eyebrow {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-      letter-spacing: 0.25em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 0.8rem;
-    }
-    .morning-text {
-      font-family: 'Mrs Saint Delafield', cursive;
-      font-size: clamp(3rem, 10vw, 5.5rem);
-      color: var(--gold);
-      line-height: 1;
-      filter: drop-shadow(0 0 18px rgba(212,168,75,0.35));
-    }
-    .sun-row {
-      margin-top: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-    }
-    .sun-line {
-      flex: 1;
-      max-width: 80px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold));
-    }
-    .sun-line.r { background: linear-gradient(to left, transparent, var(--gold)); }
-    .sun-icon {
-      font-size: 1.1rem;
-      animation: spin 20s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+  .card-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 8px;
+  }
 
-    /* ─── Letter card ─── */
-    .letter {
-      background: linear-gradient(160deg, #16192800, #12141e);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
-      position: relative;
-      box-shadow:
-        0 0 0 1px rgba(212,168,75,0.06),
-        0 20px 60px rgba(0,0,0,0.6),
-        inset 0 1px 0 rgba(212,168,75,0.1);
-      opacity: 0;
-      animation: riseUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.8s forwards;
-    }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    color: var(--deep);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
 
-    /* Corner ornaments */
-    .corner {
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-color: var(--gold);
-      border-style: solid;
-      opacity: 0.35;
-    }
-    .corner.tl { top: 14px; left: 14px;  border-width: 1px 0 0 1px; }
-    .corner.tr { top: 14px; right: 14px; border-width: 1px 1px 0 0; }
-    .corner.bl { bottom: 14px; left: 14px;  border-width: 0 0 1px 1px; }
-    .corner.br { bottom: 14px; right: 14px; border-width: 0 1px 1px 0; }
+  .card-title em {
+    color: var(--rose);
+    font-style: italic;
+  }
 
-    /* Wax seal */
-    .wax-seal {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40px;
-      height: 40px;
-      background: radial-gradient(circle at 38% 32%, #e8707e, #9c2f42);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      box-shadow: 0 4px 16px rgba(156,47,66,0.5), 0 0 0 1px rgba(212,168,75,0.2);
-    }
+  .progress-bar-wrap {
+    margin: 24px 0 20px;
+    height: 5px;
+    background: var(--blush);
+    border-radius: 99px;
+    overflow: hidden;
+  }
 
-    /* ─── Letter header rule ─── */
-    .rule {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 2.2rem;
-      margin-top: 0.5rem;
-    }
-    .rule-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-    }
-    .rule-gem { color: var(--gold); font-size: 0.6rem; opacity: 0.6; }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--gold));
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
 
-    /* ─── Typography ─── */
-    .salutation {
-      font-family: 'Mrs Saint Delafield', cursive;
-      font-size: clamp(2rem, 7vw, 3rem);
-      color: var(--gold-lt);
-      line-height: 1.2;
-      margin-bottom: 1.8rem;
-      filter: drop-shadow(0 0 8px rgba(212,168,75,0.2));
-    }
+  .question-number {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 14px;
+  }
 
-    .body p {
-      font-size: clamp(1rem, 2.8vw, 1.1rem);
-      font-weight: 400;
-      line-height: 2;
-      color: var(--ink);
-      margin-bottom: 1.4rem;
-    }
+  .question-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(17px, 3vw, 22px);
+    color: var(--deep);
+    line-height: 1.5;
+    margin-bottom: 36px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .body em {
-      font-style: italic;
-      color: var(--rose-lt);
-    }
+  .buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 60px;
+  }
 
-    .body strong {
-      color: var(--gold-lt);
-      font-weight: 400;
-      font-style: italic;
-    }
+  /* YES button */
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), #c0384f);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 44px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(232,68,90,0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    z-index: 2;
+  }
 
-    /* Pull quote */
-    .pull-quote {
-      text-align: center;
-      margin: 2rem -0.5rem;
-      padding: 1.5rem 1rem;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      position: relative;
-    }
-    .pull-quote p {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(1.1rem, 3.5vw, 1.4rem) !important;
-      color: var(--gold-lt) !important;
-      line-height: 1.7 !important;
-      margin: 0 !important;
-    }
-    .pull-quote::before {
-      content: '\201C';
-      position: absolute;
-      top: -18px; left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      color: var(--gold);
-      opacity: 0.4;
-      line-height: 1;
-    }
+  .btn-yes:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 28px rgba(232,68,90,0.5);
+  }
 
-    /* Promise list */
-    .promises {
-      list-style: none;
-      margin: 1.6rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-    .promises li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.9rem;
-      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-      line-height: 1.75;
-      color: #d4c8b8;
-    }
-    .promises li .bullet {
-      flex-shrink: 0;
-      margin-top: 0.35rem;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--rose);
-      box-shadow: 0 0 6px rgba(201,106,126,0.7);
-    }
+  .btn-yes:active {
+    transform: scale(0.97);
+  }
 
-    /* ─── Sign-off ─── */
-    .signoff {
-      margin-top: 2.5rem;
-      text-align: right;
-    }
-    .signoff .close-line {
-      font-style: italic;
-      font-size: clamp(0.9rem, 2.5vw, 1rem);
-      color: var(--muted);
-      margin-bottom: 0.3rem;
-    }
-    .signoff .name {
-      font-family: 'Mrs Saint Delafield', cursive;
-      font-size: clamp(2.2rem, 7vw, 3rem);
-      color: var(--gold);
-      filter: drop-shadow(0 0 10px rgba(212,168,75,0.3));
-    }
+  /* NO button — always running away */
+  .btn-no {
+    background: white;
+    color: var(--soft);
+    border: 2px solid var(--blush);
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: not-allowed;
+    position: absolute;
+    right: -10px;
+    transition: none;
+    user-select: none;
+    pointer-events: none; /* truly unclickable */
+    white-space: nowrap;
+    z-index: 1;
+  }
 
-    /* ─── Heart section ─── */
-    .heart-section {
-      text-align: center;
-      margin-top: 3.5rem;
-      opacity: 0;
-      animation: riseUp 1s ease 2s forwards;
-    }
-    .hearts-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1.1rem;
-    }
-    .hearts-row span { animation: pulse var(--dur, 1.4s) ease-in-out infinite; }
-    .hearts-row span:nth-child(1) { --dur: 1.6s; animation-delay: 0s;    font-size: 0.8rem; opacity: 0.5; }
-    .hearts-row span:nth-child(2) { --dur: 1.3s; animation-delay: 0.2s;  font-size: 1.4rem; }
-    .hearts-row span:nth-child(3) { --dur: 1.5s; animation-delay: 0.1s;  font-size: 0.9rem; opacity: 0.7; }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.3); }
-    }
+  .hint {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 22px;
+    font-style: italic;
+    min-height: 18px;
+  }
 
-    .footer-note {
-      margin-top: 1rem;
-      font-style: italic;
-      font-size: 0.85rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-    }
+  /* Final reveal screen */
+  .reveal-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 
-    /* ─── Shared reveal animation ─── */
-    @keyframes riseUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+  .reveal-screen.active {
+    display: flex;
+  }
 
-    /* ─── Responsive ─── */
-    @media (max-width: 500px) {
-      .pull-quote { margin: 1.5rem -0.2rem; }
-    }
-  </style>
+  .reveal-emoji {
+    font-size: 4rem;
+    animation: popIn 0.6s cubic-bezier(.175,.885,.32,1.275) both;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .reveal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 5vw, 34px);
+    color: var(--rose);
+    line-height: 1.2;
+    animation: fadeUp 0.6s 0.2s both ease-out;
+  }
+
+  .reveal-sub {
+    font-size: 15px;
+    color: var(--soft);
+    line-height: 1.6;
+    animation: fadeUp 0.6s 0.35s both ease-out;
+  }
+
+  .date-badge {
+    background: linear-gradient(135deg, var(--rose), var(--gold));
+    color: white;
+    border-radius: 20px;
+    padding: 22px 40px;
+    margin-top: 10px;
+    animation: fadeUp 0.7s 0.5s both ease-out;
+  }
+
+  .date-badge .date-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 6px;
+  }
+
+  .date-badge .date-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .date-badge .date-month {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-top: 4px;
+  }
+
+  .confetti-rain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: -10px;
+    animation: confettiFall linear forwards;
+    border-radius: 2px;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .quiz-screen { display: block; }
+  .quiz-screen.hidden { display: none; }
+
+  .intro-screen { display: flex; flex-direction: column; gap: 10px; }
+  .intro-screen.hidden { display: none; }
+
+  .start-btn {
+    margin-top: 20px;
+    background: linear-gradient(135deg, var(--rose), #c0384f);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(232,68,90,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    align-self: center;
+  }
+
+  .start-btn:hover { transform: scale(1.05); box-shadow: 0 6px 28px rgba(232,68,90,0.5); }
+</style>
 </head>
 <body>
 
-<!-- Stars -->
-<div class="stars" id="stars"></div>
+<!-- Floating hearts -->
+<div class="hearts-bg" id="heartsBg"></div>
 
-<!-- Ambient orbs -->
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
+<!-- Confetti container -->
+<div class="confetti-rain" id="confetti"></div>
 
-<!-- Fireflies -->
-<div id="fireflies"></div>
+<div class="card">
+  <span class="envelope-icon">💌</span>
 
-<!-- ── Page ── -->
-<div class="page">
-
-  <!-- Good morning -->
-  <div class="morning-wrap">
-    <p class="morning-eyebrow">a letter written just for you</p>
-    <div class="morning-text">Good Morning,</div>
-    <div class="sun-row">
-      <span class="sun-line"></span>
-      <span class="sun-icon">✦</span>
-      <span class="sun-line r"></span>
-    </div>
+  <!-- Intro screen -->
+  <div class="intro-screen" id="introScreen">
+    <div class="card-label">A very important message</div>
+    <h1 class="card-title">Hey <em>Kelsey</em>,<br>I have a quick quiz for you 😇</h1>
+    <p style="color:var(--soft);font-size:14px;line-height:1.7;margin-top:8px;">
+      It's super easy. Only <strong>5 questions</strong>.<br>
+      All you need is your gut feeling. Ready? 💕
+    </p>
+    <button class="start-btn" onclick="startQuiz()">I'm Ready! 🎀</button>
   </div>
 
-  <!-- Letter -->
-  <div class="letter">
-    <div class="wax-seal">💌</div>
-    <div class="corner tl"></div>
-    <div class="corner tr"></div>
-    <div class="corner bl"></div>
-    <div class="corner br"></div>
-
-    <div class="rule">
-      <div class="rule-line"></div>
-      <span class="rule-gem">◆</span>
-      <div class="rule-line"></div>
+  <!-- Quiz screen -->
+  <div class="quiz-screen hidden" id="quizScreen">
+    <div class="card-label" id="qLabel">Question 1 of 5</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
     </div>
-
-    <div class="salutation">My dearest Kelsey,</div>
-
-    <div class="body">
-      <p>
-        Before you do anything else this morning — before the noise of the day
-        finds you — I need you to read this. Because some things are too
-        important to leave unsaid for even one more hour.
-      </p>
-
-      <p>
-        I was wrong. Not communicating where I was and what I was doing
-        was selfish of me, and <em>you deserved so much better than that silence.</em>
-        I'm not going to dress it up or make excuses — I just want you to know
-        that I see it, I own it, and I'm sorry from the deepest part of me.
-      </p>
-
-      <div class="pull-quote">
-        <p>I love you more than I've ever properly shown,<br/>and I need you more than you probably know.</p>
-      </div>
-
-      <p>
-        You are not just my girlfriend, Kelsey. You are the person I look for
-        in every room I walk into. The one whose laugh I replay in my head.
-        The one I want to tell things to first — the good, the boring, the random.
-        <strong>You are my person.</strong> And I have not been treating you like
-        someone who knows that — and that's on me.
-      </p>
-
-      <p>
-        So starting right now, this morning, here is what I'm promising you:
-      </p>
-
-      <ul class="promises">
-        <li><span class="bullet"></span>I will always tell you where I am — not because you're asking me to, but because you deserve to know.</li>
-        <li><span class="bullet"></span>I will communicate earlier, with more honesty, and without waiting until things boil over.</li>
-        <li><span class="bullet"></span>I will never leave you in silence wondering about me again. You are too important for that.</li>
-        <li><span class="bullet"></span>I will love you in the ways that actually reach you — consistently, not just when it's convenient.</li>
-        <li><span class="bullet"></span>I will be the version of myself that is worthy of the trust you give me every single day.</li>
-      </ul>
-
-      <p>
-        I chose to send this in the morning on purpose — because I wanted the
-        very first thing you see today to be <em>proof</em> that you are always
-        on my mind. That you matter. That I am not taking you lightly, not even
-        a little bit.
-      </p>
-
-      <p>
-        I love you, girl. So deeply it scares me sometimes. Please let me show
-        you that today, and every day after.
-      </p>
+    <div class="question-text" id="questionText"></div>
+    <div class="buttons">
+      <button class="btn-yes" onclick="nextQuestion()">✅ Yes!</button>
+      <button class="btn-no" id="noBtn">🚫 No</button>
     </div>
-
-    <div class="signoff">
-      <p class="close-line">Yours, completely and always —</p>
-      <div class="name">Your love 🌹</div>
-    </div>
+    <p class="hint" id="hintText"></p>
   </div>
 
-  <!-- Hearts -->
-  <div class="heart-section">
-    <div class="hearts-row">
-      <span>🤍</span>
-      <span>❤️</span>
-      <span>🤍</span>
+  <!-- Reveal screen -->
+  <div class="reveal-screen" id="revealScreen">
+    <div class="reveal-emoji">🎉</div>
+    <h2 class="reveal-title">SHE SAID YES!<br>(obviously 😏)</h2>
+    <p class="reveal-sub">
+      You passed the quiz with flying colors, babe 💕<br>
+      Now for the most important question of all...
+    </p>
+    <div class="date-badge">
+      <div class="date-label">📅 Our Date Is On</div>
+      <div class="date-number">20th</div>
+      <div class="date-month">June 2025 🌹</div>
     </div>
-    <p class="footer-note">"You are my favorite thing about my life."</p>
+    <p class="reveal-sub" style="margin-top:8px;font-size:13px;">
+      Mark it! Clear your schedule! Cancel whatever you have 😂<br>
+      It's gonna be the best day, I promise 💘
+    </p>
   </div>
-
 </div>
 
 <script>
-  /* ── Stars ── */
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 120; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const sz = Math.random() * 1.8 + 0.4;
-    s.style.cssText = `
-      width:${sz}px; height:${sz}px;
-      top:${Math.random()*100}%;
-      left:${Math.random()*100}%;
-      animation-duration:${2 + Math.random()*5}s;
-      animation-delay:${Math.random()*6}s;
-    `;
-    starsEl.appendChild(s);
+  const questions = [
+    {
+      text: "Am I the most handsome person you know? 😏",
+      hint: "The 'No' button seems to be... having technical difficulties 🤔"
+    },
+    {
+      text: "Do you think about me even when you're trying NOT to? 🥺",
+      hint: "Interesting... the 'No' button just ran away again 😂"
+    },
+    {
+      text: "Would you trust me to plan a perfect date for us? 🌹",
+      hint: "The 'No' button heard 'date' and fled immediately 😭"
+    },
+    {
+      text: "Do I make your heart go a little *brrr* sometimes? 💓",
+      hint: "Still no 'No'... suspicious behaviour from that button 🤷"
+    },
+    {
+      text: "Last one... ready for a surprise after exams? 🎁",
+      hint: "The 'No' button has officially resigned. Only YES exists now 😂"
+    }
+  ];
+
+  let current = 0;
+
+  // Animate floating hearts
+  const heartsBg = document.getElementById('heartsBg');
+  const heartChars = ['❤️','💕','💗','💖','🌹','💓','💞','✨'];
+  for (let i = 0; i < 25; i++) {
+    const h = document.createElement('span');
+    h.className = 'heart-float';
+    h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (7 + Math.random() * 10) + 's';
+    h.style.animationDelay = (Math.random() * 12) + 's';
+    h.style.fontSize = (12 + Math.random() * 14) + 'px';
+    heartsBg.appendChild(h);
   }
 
-  /* ── Fireflies ── */
-  const ffEl = document.getElementById('fireflies');
-  for (let i = 0; i < 22; i++) {
-    const f = document.createElement('div');
-    f.className = 'firefly';
-    const x = Math.random() * 100, y = Math.random() * 100;
-    const dx  = (Math.random() - 0.5) * 180 + 'px';
-    const dy  = (Math.random() - 0.5) * 180 + 'px';
-    const dx2 = (Math.random() - 0.5) * 260 + 'px';
-    const dy2 = (Math.random() - 0.5) * 260 + 'px';
-    f.style.cssText = `
-      left:${x}vw; top:${y}vh;
-      --dx:${dx}; --dy:${dy};
-      --dx2:${dx2}; --dy2:${dy2};
-      animation-duration:${6 + Math.random()*8}s;
-      animation-delay:${Math.random()*10}s;
-    `;
-    ffEl.appendChild(f);
+  // NO button jiggle & move on hover area
+  const noBtn = document.getElementById('noBtn');
+  let noX = 0;
+  
+  // Move NO button randomly every interval
+  function moveNoButton() {
+    const card = document.querySelector('.buttons');
+    const maxX = card.offsetWidth * 0.35;
+    const maxY = 50;
+    noX = (Math.random() - 0.5) * maxX;
+    const noY = (Math.random() - 0.5) * maxY;
+    noBtn.style.transform = `translate(${noX}px, ${noY}px)`;
+    noBtn.style.transition = 'transform 0.4s cubic-bezier(.175,.885,.32,1.275)';
+  }
+
+  setInterval(moveNoButton, 1200);
+
+  // Also move when mouse gets close (via document mousemove)
+  document.addEventListener('mousemove', (e) => {
+    const rect = noBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+    if (dist < 120) {
+      moveNoButton();
+    }
+  });
+
+  // Touch devices
+  document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const rect = noBtn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dist = Math.hypot(touch.clientX - cx, touch.clientY - cy);
+    if (dist < 140) moveNoButton();
+  });
+
+  function startQuiz() {
+    document.getElementById('introScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
+    document.getElementById('qLabel').textContent = `Question ${current + 1} of ${questions.length}`;
+    document.getElementById('progressFill').style.width = ((current / questions.length) * 100) + '%';
+    document.getElementById('questionText').textContent = q.text;
+    document.getElementById('hintText').textContent = q.hint;
+    moveNoButton();
+  }
+
+  function nextQuestion() {
+    current++;
+    if (current >= questions.length) {
+      showReveal();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  function showReveal() {
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('progressFill').style.width = '100%';
+    const reveal = document.getElementById('revealScreen');
+    reveal.classList.add('active');
+    spawnConfetti();
+  }
+
+  function spawnConfetti() {
+    const colors = ['#e8445a','#f5a623','#ffd6dc','#7a4255','#fff8f0','#c0384f','#ffb347'];
+    const container = document.getElementById('confetti');
+    for (let i = 0; i < 90; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+        piece.style.animationDelay = Math.random() * 1.5 + 's';
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.width = piece.style.height = (6 + Math.random() * 8) + 'px';
+        container.appendChild(piece);
+        setTimeout(() => piece.remove(), 5000);
+      }, i * 30);
+    }
   }
 </script>
-
 </body>
 </html>
